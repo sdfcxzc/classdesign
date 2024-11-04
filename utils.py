@@ -35,6 +35,7 @@ def _display_detected_frames(conf, model, st_frame, image,count):
 
 @st.cache_resource
 def load_model(model_path):
+    model = YOLO('yolov8n.pt')
     model = YOLO(model_path)
     return model
 
