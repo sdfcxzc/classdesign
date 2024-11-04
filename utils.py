@@ -32,7 +32,7 @@ def _display_detected_frames(conf, model, st_frame, image,count):
 
 @st.cache_resource
 def load_model(model_path):
-    model = YOLO(model_path)
+    model = YOLO('best.pt')
     return model
 
 
