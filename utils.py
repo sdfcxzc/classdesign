@@ -5,12 +5,15 @@ from PIL import Image
 import tempfile
 import torch
 
+
 mp3_file='123.mp3'
+
 html="""
 <script>
   alert("请注意！疑似检测到火情");
 </script>
 """
+
 
 def _display_detected_frames(conf, model, st_frame, image,count):
     image = cv2.resize(image, (720, int(720 * (9 / 16))))
@@ -32,7 +35,7 @@ def _display_detected_frames(conf, model, st_frame, image,count):
 
 @st.cache_resource
 def load_model(model_path):
-    model = YOLO('best.pt')
+    model = YOLO(model_path)
     return model
 
 
@@ -41,6 +44,9 @@ def infer_uploaded_image(conf, model):
         label="选择图片...",
         type=("jpg", "jpeg", "png", 'bmp', 'webp')
     )
+
+    model.names[1]='人'
+    model.names[2]='烟雾'
     col1, col2 = st.columns(2)
     with col1:
         if source_img:
@@ -64,7 +70,7 @@ def infer_uploaded_image(conf, model):
                              caption="检测图像",
                              use_column_width=True)
                     try:
-                        with st.expander("检测到坐标"):
+                        with st.expander("检测到像素坐标"):
                             for box in boxes:
                                 st.write(box.xywh)
                     except Exception as ex:
