@@ -10,7 +10,7 @@ if root_path not in sys.path:
 
 ROOT = root_path.relative_to(Path.cwd())
 
-SOURCES_LIST = ["图片", "视频", "摄像"]
+SOURCES_LIST = ["图片", "视频"]
 
 DETECTION_MODEL_DIR = ROOT / 'weights' / 'detection'
 YOLOv5s_best = DETECTION_MODEL_DIR / "best.pt"
