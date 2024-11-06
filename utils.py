@@ -40,13 +40,12 @@ def load_model(model_path):
 
 
 def infer_uploaded_image(conf, model):
+    label = 'human'
     source_img = st.sidebar.file_uploader(
         label="选择图片...",
         type=("jpg", "jpeg", "png", 'bmp', 'webp')
     )
 
-    model.names[1]='人'
-    model.names[2]='烟雾'
     col1, col2 = st.columns(2)
     with col1:
         if source_img:
@@ -64,7 +63,10 @@ def infer_uploaded_image(conf, model):
                                     conf=conf)
                 boxes = res[0].boxes
                 res_plotted = res[0].plot()[:, :, ::-1]
-                label = f'{model.names[int(boxes.cls)]}'
+                for result in res:
+                    for box in result.boxes:
+                        if model.names[int(box.cls)]=='fire' or model.names[int(box.cls)]=='smoke':
+                            label = f'{model.names[int(box.cls)]}'
                 with col2:
                     st.image(res_plotted,
                              caption="检测图像",
